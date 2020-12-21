@@ -15,24 +15,49 @@ if (!$conn) {
 // params: username, password
 //
 
-$username = $_GET["username"];
-$password = $_GET["password"];
+$json = file_get_contents('php://input');
+
+$obj = json_decode($json);
+
+$username = $obj->username;
+$password = $obj->password;
 
 $query = "SELECT * FROM users WHERE username='$username' AND password='$password'";
 $result = mysqli_query($conn, $query);
 
 if ($result) {
     if (mysqli_num_rows($result) > 0) {
-        echo "Logado com sucesso!";
+        $finalObj = (object) ['message' => "success", 'user_id' => getUserIdByUsername($conn, $username)];
     } else {
-        echo "Login errado";
+        $finalObj = (object) ['message' => "login_failed", 'user_id' => -1];
     }
+} else {
+    $finalObj = (object) ['message' => "error", 'user_id' => -1];
+}
+
+$response = json_encode($finalObj, JSON_PRETTY_PRINT);
+echo $response;
+
+function getUserIdByUsername($conn, $username)
+{
+    $userId = 0;
+
+    $query = "SELECT id FROM users WHERE username='$username'";
+    $result = mysqli_query($conn, $query);
+
+    if ($result) {
+        if (mysqli_num_rows($result) > 0) {
+            if ($row = mysqli_fetch_assoc($result)) {
+                $userId = $row["id"];
+            }
+        }
+    }
+
+    return $userId;
 }
 
 // $query = "SELECT * FROM vehicules";
 // $result = mysqli_query($conn, $query);
-
-
 
 // $response = array();
 

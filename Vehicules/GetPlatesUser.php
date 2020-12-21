@@ -15,8 +15,11 @@ if (!$conn) {
 // params: name
 //
 
-$username = $_GET["username"];
-$userId = getUserIdByUsername($conn, $username);
+$json = file_get_contents('php://input');
+
+$obj = json_decode($json);
+
+$userId = $obj->userId;
 
 $query = "SELECT * FROM vehicules WHERE idUser=$userId";
 $result = mysqli_query($conn, $query);
@@ -31,28 +34,15 @@ if ($result) {
             $i++;
         }
 
-        echo json_encode($response);
+        $finalObj = (object) ['message' => "success", 'plates' => $response];
+    } else {
+        $finalObj = (object) ['message' => "no_plates_assigned", 'plates' => $response];
     }
+} else {
+    $finalObj = (object) ['message' => "error", 'plates' => $response];
 }
 
-function getUserIdByUsername($conn, $username)
-{
 
-    $userId = 0;
-
-    $query = "SELECT id FROM users WHERE username='$username'";
-    $result = mysqli_query($conn, $query);
-
-    if ($result) {
-        if (mysqli_num_rows($result) > 0) {
-            if ($row = mysqli_fetch_assoc($result)) {
-                $userId = $row["id"];
-            }
-        }
-    }
-
-    return $userId;
-}
-
+echo json_encode($finalObj, JSON_PRETTY_PRINT);
 
 mysqli_close($conn);

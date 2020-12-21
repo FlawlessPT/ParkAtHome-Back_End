@@ -27,7 +27,9 @@ if ($result) {
             $response[$i] = $row;
             $i++;
         }
-        echo json_encode($response, JSON_PRETTY_PRINT);
+        $finalObj = (object) ['parks' => $response];
+
+        echo json_encode($finalObj, JSON_PRETTY_PRINT);
     }
 }
 

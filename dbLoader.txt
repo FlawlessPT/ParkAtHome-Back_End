@@ -1,0 +1,72 @@
+CREATE DATABASE parkathome_mobile;
+
+use parkathome_mobile;
+
+CREATE TABLE user (
+	id int NOT NULL AUTO_INCREMENT,
+	name TEXT NOT NULL,
+	username TEXT UNIQUE NOT NULL,
+	password TEXT NOT NULL,
+	contact TEXT,
+	email TEXT,
+	isAdmin BOOLEAN NOT NULL,
+	PRIMARY KEY (id)
+);
+
+CREATE TABLE vehicule (
+	id int NOT NULL AUTO_INCREMENT,
+	name text NOT NULL,
+	plate text UNIQUE NOT NULL,
+	state boolean NOT NULL,
+	idUser int NOT NULL,
+	PRIMARY KEY(id),
+	FOREIGN KEY (idUser) REFERENCES user(id)
+);
+
+CREATE TABLE park (
+	id int NOT NULL AUTO_INCREMENT,
+	name text NOT NULL,
+	totalSpaces int NOT NULL,
+	localization text NOT NULL,
+	nrFloors int NOT NULL,
+	pricePerHour int NOT NULL,
+	PRIMARY KEY (id)
+);
+
+CREATE TABLE space (
+	id int NOT NULL AUTO_INCREMENT,
+	idPark INT NOT NULL,
+	isReservativa boolean NOT NULL,
+	PRIMARY KEY (id),
+	FOREIGN KEY (idPark) REFERENCES park(id)
+);
+
+CREATE TABLE savedSpaces (
+	id int NOT NULL AUTO_INCREMENT,
+	idPlate int NOT NULL,
+	idSpace int NOT NULL,
+	duracao int NOT NULL,
+	PRIMARY KEY (id),
+	FOREIGN KEY (idPlate) REFERENCES plate(id),
+	FOREIGN KEY (idSpace) REFERENCES space(id)
+);
+
+CREATE TABLE paymentMethod (
+	id int NOT NULL AUTO_INCREMENT,
+	name TEXT NOT NULL,
+	description TEXT NOT NULL,
+	idUser INT NOT NULL,
+	PRIMARY KEY (id),
+	FOREIGN KEY (idUser) REFERENCES user(id)
+);
+
+CREATE TABLE history (
+	id int NOT NULL AUTO_INCREMENT,
+	paymentData DATE NOT NULL,
+	amount DOUBLE NOT NULL,
+	idSavedSpace int NOT NULL,
+	idPaymentMethod INT NOT NULL,
+	PRIMARY KEY (id),
+	FOREIGN KEY (idSavedSpace) REFERENCES savedSpaces(id),
+	FOREIGN KEY (idPaymentMethod) REFERENCES paymentMethod(id)
+);

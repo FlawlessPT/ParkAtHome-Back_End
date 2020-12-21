@@ -15,20 +15,31 @@ if (!$conn) {
 // params: name, username, password, contact, email
 //
 
-$name = $_GET["name"];
-$username = $_GET["username"];
-$password = $_GET["password"];
-$contact = $_GET["contact"];
-$email = $_GET["email"];
+$json = file_get_contents('php://input');
 
-$query = "INSERT INTO users (name, username, password, contact, email) VALUES ('$name', '$username', '" . md5($password) . "', '$contact', '$email');";
+$obj = json_decode($json);
+
+$name = str_shuffle("JOAOJOAO");
+$username = str_shuffle("olapequenosdasdsg");
+$password = $obj->password;
+$contact = rand();
+$email = str_shuffle("fsaddfasdad");
+
+$query = "INSERT INTO users (name, username, password, contact, email) VALUES ('$name', '$username', '$password', '$contact', '$email');";
 $result = mysqli_query($conn, $query);
 
 if ($result) {
-    echo "Sucesso";
+    $message = "Utilizador inserido!";
 } else {
-    echo "Erro";
+    $message = "Erro!";
 }
+
+$finalObj = (object) ['message' => $message];
+
+$response = json_encode($finalObj, JSON_PRETTY_PRINT);
+echo $response;
+
+
 
 // $query = "SELECT * FROM vehicules";
 // $result = mysqli_query($conn, $query);
