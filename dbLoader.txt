@@ -43,11 +43,11 @@ CREATE TABLE space (
 
 CREATE TABLE savedSpaces (
 	id int NOT NULL AUTO_INCREMENT,
-	idPlate int NOT NULL,
+	idVehicule int NOT NULL,
 	idSpace int NOT NULL,
 	duracao int NOT NULL,
 	PRIMARY KEY (id),
-	FOREIGN KEY (idPlate) REFERENCES plate(id),
+	FOREIGN KEY (idVehicule) REFERENCES vehicule(id),
 	FOREIGN KEY (idSpace) REFERENCES space(id)
 );
 
