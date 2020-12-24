@@ -2,7 +2,7 @@
 $servername = "localhost";
 $dbUsername = "root";
 $dbPassword = "";
-$dbName = "parkathome_web";
+$dbName = "parkathome_mobile";
 
 // Cria a ligação à BD
 $conn = mysqli_connect($servername, $dbUsername, $dbPassword, $dbName);
@@ -12,7 +12,7 @@ if (!$conn) {
 }
 
 //
-// params: name
+// params: id
 //
 
 $json = file_get_contents('php://input');
@@ -21,7 +21,7 @@ $obj = json_decode($json);
 
 $userId = $obj->userId;
 
-$query = "SELECT * FROM vehicules WHERE idUser=$userId";
+$query = "SELECT * FROM vehicule WHERE idUser=$userId";
 $result = mysqli_query($conn, $query);
 
 $response = array();

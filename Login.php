@@ -2,7 +2,7 @@
 $servername = "localhost";
 $dbUsername = "root";
 $dbPassword = "";
-$dbName = "parkathome_web";
+$dbName = "parkathome_mobile";
 
 // Cria a ligação à BD
 $conn = mysqli_connect($servername, $dbUsername, $dbPassword, $dbName);
@@ -22,7 +22,7 @@ $obj = json_decode($json);
 $username = $obj->username;
 $password = $obj->password;
 
-$query = "SELECT * FROM users WHERE username='$username' AND password='$password'";
+$query = "SELECT * FROM user WHERE username='$username' AND password='$password'";
 $result = mysqli_query($conn, $query);
 
 if ($result) {
@@ -42,7 +42,7 @@ function getUserIdByUsername($conn, $username)
 {
     $userId = 0;
 
-    $query = "SELECT id FROM users WHERE username='$username'";
+    $query = "SELECT id FROM user WHERE username='$username'";
     $result = mysqli_query($conn, $query);
 
     if ($result) {

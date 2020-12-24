@@ -2,7 +2,7 @@
 $servername = "localhost";
 $dbUsername = "root";
 $dbPassword = "";
-$dbName = "parkathome_web";
+$dbName = "parkathome_mobile";
 
 // Cria a ligação à BD
 $conn = mysqli_connect($servername, $dbUsername, $dbPassword, $dbName);
