@@ -52,7 +52,7 @@ CREATE TABLE space (
 
 CREATE TABLE liveSavedSpaces (
 	id int NOT NULL AUTO_INCREMENT,
-	entryDate DATE NOT NULL,
+	saved_at DATE NOT NULL,
 	idVehicule int NOT NULL,
 	idSpace int NOT NULL,
 	PRIMARY KEY (id),
