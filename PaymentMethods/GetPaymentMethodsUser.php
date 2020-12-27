@@ -21,7 +21,7 @@ $obj = json_decode($json);
 
 $userId = $obj->userId;
 
-$query = "SELECT * FROM vehicule WHERE idUser=$userId";
+$query = "SELECT * FROM paymentmethod WHERE idUser=$userId";
 $result = mysqli_query($conn, $query);
 
 $response = array();
@@ -34,12 +34,12 @@ if ($result) {
             $i++;
         }
 
-        $finalObj = (object) ['message' => "success", 'plates' => $response];
+        $finalObj = (object) ['message' => "success", 'paymentMethods' => $response];
     } else {
-        $finalObj = (object) ['message' => "no_plates_assigned", 'plates' => $response];
+        $finalObj = (object) ['message' => "no_paymentMethods_created", 'paymentMethods' => $response];
     }
 } else {
-    $finalObj = (object) ['message' => "error", 'plates' => $response];
+    $finalObj = (object) ['message' => "error", 'paymentMethods' => $response];
 }
 
 

@@ -19,32 +19,62 @@ $json = file_get_contents('php://input');
 
 $obj = json_decode($json);
 
-$name = str_shuffle("JOAOJOAO");
-$username = str_shuffle("olapequenosdasdsg");
+$name = $obj->name;
+$username = $obj->username;
 $password = $obj->password;
-$contact = rand();
-$email = str_shuffle("fsaddfasdad");
+$contact = $obj->contact;
+$email = $obj->email;
 
-$query = "INSERT INTO users (name, username, password, contact, email) VALUES ('$name', '$username', '$password', '$contact', '$email');";
+$query = "INSERT INTO user (name, username, password, contact, email) VALUES ('$name', '$username', '$password', '$contact', '$email');";
 $result = mysqli_query($conn, $query);
 
-if ($result) {
-    $message = "Utilizador inserido!";
+if (!userExists($conn, $username)) {
+    if ($result) {
+        $finalObj = (object) ['message' => "success", 'user_id' => getUserIdByUsername($conn, $username)];
+    } else {
+        $finalObj = (object) ['message' => "error", 'user_id' => -1];
+    }
 } else {
-    $message = "Erro!";
+    $finalObj = (object) ['message' => "user_already_exists", 'user_id' => -1];
 }
-
-$finalObj = (object) ['message' => $message];
 
 $response = json_encode($finalObj, JSON_PRETTY_PRINT);
 echo $response;
 
+function userExists($conn, $username) {
+    $exists = false;
 
+    $query = "SELECT id FROM user WHERE username='$username'";
+    $result = mysqli_query($conn, $query);
 
-// $query = "SELECT * FROM vehicules";
-// $result = mysqli_query($conn, $query);
+    if ($result) {
+        if (mysqli_num_rows($result) > 0) {
+            if ($row = mysqli_fetch_assoc($result)) {
+                $userId = true;
+            }
+        }
+    }
 
+    return $exists;
+}
 
+function getUserIdByUsername($conn, $username)
+{
+    $userId = 0;
+
+    $query = "SELECT id FROM user WHERE username='$username'";
+    $result = mysqli_query($conn, $query);
+
+    if ($result) {
+        if (mysqli_num_rows($result) > 0) {
+            if ($row = mysqli_fetch_assoc($result)) {
+                $userId = $row["id"];
+            }
+        }
+    }
+
+    return $userId;
+}
 
 // $response = array();
 

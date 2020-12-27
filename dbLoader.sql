@@ -23,13 +23,22 @@ CREATE TABLE vehicule (
 	FOREIGN KEY (idUser) REFERENCES user(id)
 );
 
+CREATE TABLE paymentMethod (
+	id int NOT NULL AUTO_INCREMENT,
+	name TEXT NOT NULL,
+	description TEXT NOT NULL,
+	idUser INT NOT NULL,
+	PRIMARY KEY (id),
+	FOREIGN KEY (idUser) REFERENCES user(id)
+);
+
 CREATE TABLE park (
 	id int NOT NULL AUTO_INCREMENT,
 	name text NOT NULL,
 	totalSpaces int NOT NULL,
 	localization text NOT NULL,
 	nrFloors int NOT NULL,
-	pricePerHour int NOT NULL,
+	pricePerHour FLOAT NOT NULL,
 	PRIMARY KEY (id)
 );
 
@@ -41,30 +50,22 @@ CREATE TABLE space (
 	FOREIGN KEY (idPark) REFERENCES park(id)
 );
 
-CREATE TABLE savedSpaces (
+CREATE TABLE liveSavedSpaces (
 	id int NOT NULL AUTO_INCREMENT,
+	entryDate DATE NOT NULL,
 	idVehicule int NOT NULL,
 	idSpace int NOT NULL,
-	duracao int NOT NULL,
 	PRIMARY KEY (id),
 	FOREIGN KEY (idVehicule) REFERENCES vehicule(id),
 	FOREIGN KEY (idSpace) REFERENCES space(id)
-);
-
-CREATE TABLE paymentMethod (
-	id int NOT NULL AUTO_INCREMENT,
-	name TEXT NOT NULL,
-	description TEXT NOT NULL,
-	idUser INT NOT NULL,
-	PRIMARY KEY (id),
-	FOREIGN KEY (idUser) REFERENCES user(id)
-);
+)
 
 CREATE TABLE history (
 	id int NOT NULL AUTO_INCREMENT,
-	paymentData DATE NOT NULL,
-	amount DOUBLE NOT NULL,
-	idSavedSpace int NOT NULL,
+	paid_at DATE NOT NULL,
+	amount FLOAT NOT NULL,
+	duration INT NOT NULL,
+	idSpace int NOT NULL,
 	idPaymentMethod INT NOT NULL,
 	PRIMARY KEY (id),
 	FOREIGN KEY (idSavedSpace) REFERENCES savedSpaces(id),
@@ -79,10 +80,12 @@ INSERT INTO `vehicule` (`id`, `name`, `plate`, `state`, `idUser`) VALUES
 (1, 'Toyota Supra', '11-11-11', 1, 1),
 (2, 'Renault Clio', '22-11-33', 1, 1),
 
-INSERT INTO `park` (`id`, `name`, `totalSpaces`, `localization`, `nrFloors`) VALUES
-(1, 'Parque 1', 60, 'Gondomar', 2),
-(2, 'Parque 2', 40, 'Porto', 2),
-(3, 'Parque 3', 80, 'Gens', 2);
+INSERT INTO `park` (`id`, `name`, `totalSpaces`, `localization`, `nrFloors`, `pricePerHour`) VALUES
+(1, 'Parque do Porto', 60, 'Gondomar', 2, 0.8),
+(2, 'Parque de Braga', 40, 'Porto', 1, 0.3),
+(3, 'Parque de Guimarães', 30, 'Guimarães', 2, 2.1),
+(4, 'Parque de Gondomar', 80, 'Gondomar', 2, 0.9),
+(5, 'Parque do Souto', 30, 'Souto', 1, 0.4);
 
 INSERT INTO `space` (`id`, `idPark`, `isReservativa`) VALUES
 (1, 1, 0),

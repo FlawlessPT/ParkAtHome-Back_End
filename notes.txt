@@ -1,0 +1,1 @@
+TODO: Add verification to register page to check if user exists
