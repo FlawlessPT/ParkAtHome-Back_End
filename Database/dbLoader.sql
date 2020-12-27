@@ -1,7 +1,3 @@
-CREATE DATABASE parkathome_mobile;
-
-use parkathome_mobile;
-
 CREATE TABLE user (
 	id int NOT NULL AUTO_INCREMENT,
 	name TEXT NOT NULL,
@@ -58,7 +54,7 @@ CREATE TABLE liveSavedSpaces (
 	PRIMARY KEY (id),
 	FOREIGN KEY (idVehicule) REFERENCES vehicule(id),
 	FOREIGN KEY (idSpace) REFERENCES space(id)
-)
+);
 
 CREATE TABLE history (
 	id int NOT NULL AUTO_INCREMENT,
@@ -78,7 +74,7 @@ INSERT INTO `user` (`id`, `name`, `username`, `password`, `contact`, `email`, `i
 
 INSERT INTO `vehicule` (`id`, `name`, `plate`, `state`, `idUser`) VALUES
 (1, 'Toyota Supra', '11-11-11', 1, 1),
-(2, 'Renault Clio', '22-11-33', 1, 1),
+(2, 'Renault Clio', '22-11-33', 1, 1);
 
 INSERT INTO `park` (`id`, `name`, `totalSpaces`, `localization`, `nrFloors`, `pricePerHour`) VALUES
 (1, 'Parque do Porto', 60, 'Gondomar', 2, 0.8),
