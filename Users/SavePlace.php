@@ -12,23 +12,24 @@ if (!$conn) {
 }
 
 //
-// params: name, username, password, contact, email
+// params: userId
 //
 
 $json = file_get_contents('php://input');
 
 $obj = json_decode($json);
 
-$name = $obj->name;
-$username = $obj->username;
-$password = $obj->password;
-$contact = $obj->contact;
-$email = $obj->email;
+$idSpace = $obj->id;
+$name = $obj->id;
 
-$query = "INSERT INTO user (name, username, password, contact, email) VALUES ('$name', '$username', '$password', '$contact', '$email');";
+
+$query = "INSERT INTO liveSavedSpaces (saved_at, idVehicule, idSpace) VALUES ('', '', '". date_default_timezone_get(). "');";
 $result = mysqli_query($conn, $query);
 
-if (!userExists($conn, $username)) {
+// TODO: GET A SPACE FROM SPACES TABLE AND CHECK IF IT IS ALREADY SAVED OR NOT
+// TODO: FINISH THIS PAGE
+
+if (!vehiculeIsAlreadySaved($conn, $plate)) {
     if ($result) {
         $finalObj = (object) ['message' => "success", 'user_id' => getUserIdByUsername($conn, $username)];
     } else {
@@ -41,10 +42,10 @@ if (!userExists($conn, $username)) {
 $response = json_encode($finalObj, JSON_PRETTY_PRINT);
 echo $response;
 
-function userExists($conn, $username) {
+function vehiculeIsAlreadySaved($conn, $id) {
     $exists = false;
 
-    $query = "SELECT id FROM user WHERE username='$username'";
+    $query = "SELECT id FROM liveSavedSpaces WHERE idVehicule=$id";
     $result = mysqli_query($conn, $query);
 
     if ($result) {
@@ -58,11 +59,11 @@ function userExists($conn, $username) {
     return $exists;
 }
 
-function getUserIdByUsername($conn, $username)
+function getVehiculeIdByName($conn, $vehiculeName)
 {
     $userId = 0;
 
-    $query = "SELECT id FROM user WHERE username='$username'";
+    $query = "SELECT id FROM vehicule WHERE name='$vehiculeName'";
     $result = mysqli_query($conn, $query);
 
     if ($result) {
@@ -75,22 +76,5 @@ function getUserIdByUsername($conn, $username)
 
     return $userId;
 }
-
-// $response = array();
-
-// if ($result) {
-//     if (mysqli_num_rows($result) > 0) {
-//         $i = 0;
-//         while ($row = mysqli_fetch_assoc($result)) {
-//             $response[$i]['id'] = $row["id"];
-//             $response[$i]['name'] = $row["name"];
-//             $response[$i]['plate'] = $row["plate"];
-//             $response[$i]['state'] = $row["state"];
-//             $response[$i]['idUser'] = $row["idUser"];
-//             $i++;
-//         }
-//         echo json_encode($response, JSON_PRETTY_PRINT);
-//     }
-// }
 
 mysqli_close($conn);

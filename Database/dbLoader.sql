@@ -31,6 +31,9 @@ CREATE TABLE paymentMethod (
 CREATE TABLE park (
 	id int NOT NULL AUTO_INCREMENT,
 	name text NOT NULL,
+	address TEXT NOT NULL,
+	contact TEXT NOT NULL,
+	email TEXT NOT NULL,
 	totalSpaces int NOT NULL,
 	localization text NOT NULL,
 	nrFloors int NOT NULL,
@@ -76,12 +79,12 @@ INSERT INTO `vehicule` (`id`, `name`, `plate`, `state`, `idUser`) VALUES
 (1, 'Toyota Supra', '11-11-11', 1, 1),
 (2, 'Renault Clio', '22-11-33', 1, 1);
 
-INSERT INTO `park` (`id`, `name`, `totalSpaces`, `localization`, `nrFloors`, `pricePerHour`) VALUES
-(1, 'Parque do Porto', 60, 'Gondomar', 2, 0.8),
-(2, 'Parque de Braga', 40, 'Porto', 1, 0.3),
-(3, 'Parque de Guimarães', 30, 'Guimarães', 2, 2.1),
-(4, 'Parque de Gondomar', 80, 'Gondomar', 2, 0.9),
-(5, 'Parque do Souto', 30, 'Souto', 1, 0.4);
+INSERT INTO `park` (`id`, `name`, `address`, `contact`, `email`,`totalSpaces`, `localization`, `nrFloors`, `pricePerHour`) VALUES
+(1, 'Parque do Porto', "Rua do Porto", "222333222", "porto@email.pt", 60, 'Gondomar', 2, 0.8),
+(2, 'Parque de Braga', "Rua de Braga", "333111333", "braga@email.pt", 40, 'Porto', 1, 0.3),
+(3, 'Parque de Guimarães', "Rua de Guimarães", "123000123", "guimaraes@email.pt", 30, 'Guimarães', 2, 2.1),
+(4, 'Parque de Gondomar', "Rua de Gondomar", "988666123", "gondoamr@email.pt", 80, 'Gondomar', 2, 0.9),
+(5, 'Parque do Souto', "Rua do Souto", "464090111", "souto@email.pt", 30, 'Souto', 1, 0.4);
 
 INSERT INTO `space` (`id`, `idPark`, `isReservativa`) VALUES
 (1, 1, 0),
