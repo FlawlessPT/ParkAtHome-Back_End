@@ -25,18 +25,25 @@ $password = $obj->password;
 $query = "SELECT * FROM user WHERE username='$username' AND password='$password'";
 $result = mysqli_query($conn, $query);
 
+$response = array();
+
 if ($result) {
     if (mysqli_num_rows($result) > 0) {
-        $finalObj = (object) ['message' => "success", 'user_id' => getUserIdByUsername($conn, $username)];
+        $i = 0;
+        while ($row = mysqli_fetch_assoc($result)) {
+            $response[$i] = $row;
+            $i++;
+        }
+
+        $finalObj = (object) ['message' => "success", 'user' => $response, 'user_id' => getUserIdByUsername($conn, $username)];
     } else {
         $finalObj = (object) ['message' => "login_failed", 'user_id' => -1];
     }
 } else {
     $finalObj = (object) ['message' => "error", 'user_id' => -1];
 }
-
-$response = json_encode($finalObj, JSON_PRETTY_PRINT);
-echo $response;
+ 
+echo json_encode($finalObj, JSON_PRETTY_PRINT);
 
 function getUserIdByUsername($conn, $username)
 {

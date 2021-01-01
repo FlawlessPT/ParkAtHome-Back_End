@@ -12,49 +12,29 @@ if (!$conn) {
 }
 
 //
-// params: name, username, password, contact, email
+// params: name, description
 //
 
-$json = file_get_contents('php://input');
 
+$json = file_get_contents('php://input');
 $obj = json_decode($json);
 
 $name = $obj->name;
-$username = $obj->username;
-$password = $obj->password;
-$contact = $obj->contact;
-$email = $obj->email;
+$description = $obj->description;
+$idUser = $obj->userId;
 
-if (!userExists($conn, $username)) {
-    $query = "INSERT INTO user (name, username, password, contact, email) VALUES ('$name', '$username', '$password', '$contact', '$email');";
-    $result = mysqli_query($conn, $query);
 
-    if ($result) {
-        $finalObj = (object) ['message' => "success", 'user_id' => getUserIdByUsername($conn, $username)];
-    } else {
-        $finalObj = (object) ['message' => "error", 'user_id' => -1];
-    }
+$query = "INSERT INTO paymentMethod (name, description, idUser) VALUES ('$name', '$description', $idUser);";
+$result = mysqli_query($conn, $query);
+
+if ($result) {
+    $finalObj = (object) ['message' => "success"];
 } else {
-    $finalObj = (object) ['message' => "user_already_exists", 'user_id' => -1];
+    $finalObj = (object) ['message' => "error"];
 }
 
 $response = json_encode($finalObj, JSON_PRETTY_PRINT);
 echo $response;
-
-function userExists($conn, $username) {
-    $exists = false;
-
-    $query = "SELECT id FROM user WHERE username='$username'";
-    $result = mysqli_query($conn, $query);
-
-    if ($result) {
-        if (mysqli_num_rows($result) > 0) {
-            $exists = true;
-        }
-    }
-
-    return $exists;
-}
 
 function getUserIdByUsername($conn, $username)
 {

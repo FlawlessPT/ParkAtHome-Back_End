@@ -15,24 +15,63 @@ if (!$conn) {
 // params: name, plate
 //
 
-$name = $_GET["name"];
-$plate = $_GET["plate"];
+
+$json = file_get_contents('php://input');
+$obj = json_decode($json);
+
+$plate = $obj->plate;
+$name = $obj->name;
 $state = 1;
-$idUser = 1;
+$idUser = $obj->userId;
 
-$query = "INSERT INTO vehicules (name, plate, state, idUser) VALUES ('$name', '$plate', $state, $idUser);";
-$result = mysqli_query($conn, $query);
+if (!plateExists($conn, $plate)) {
+    $query = "INSERT INTO vehicule (name, plate, state, idUser) VALUES ('$name', '$plate', $state, $idUser);";
+    $result = mysqli_query($conn, $query);
 
-if ($result) {
-    echo "Sucesso";
+    if ($result) {
+        $finalObj = (object) ['message' => "success"];
+    } else {
+        $finalObj = (object) ['message' => "error"];
+    }
 } else {
-    echo "Erro";
+    $finalObj = (object) ['message' => "plate_already_exists"];
 }
 
-// $query = "SELECT * FROM vehicules";
-// $result = mysqli_query($conn, $query);
+$response = json_encode($finalObj, JSON_PRETTY_PRINT);
+echo $response;
 
+function plateExists($conn, $plate) {
+    $exists = false;
 
+    $query = "SELECT id FROM vehicule WHERE plate='$plate'";
+    $result = mysqli_query($conn, $query);
+
+    if ($result) {
+        if (mysqli_num_rows($result) > 0) {
+            $exists = true;
+        }
+    }
+
+    return $exists;
+}
+
+function getUserIdByUsername($conn, $username)
+{
+    $userId = 0;
+
+    $query = "SELECT id FROM user WHERE username='$username'";
+    $result = mysqli_query($conn, $query);
+
+    if ($result) {
+        if (mysqli_num_rows($result) > 0) {
+            if ($row = mysqli_fetch_assoc($result)) {
+                $userId = $row["id"];
+            }
+        }
+    }
+
+    return $userId;
+}
 
 // $response = array();
 
