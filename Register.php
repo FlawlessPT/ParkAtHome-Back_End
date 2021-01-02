@@ -29,8 +29,14 @@ if (!userExists($conn, $username)) {
     $query = "INSERT INTO user (name, username, password, contact, email) VALUES ('$name', '$username', '$password', '$contact', '$email');";
     $result = mysqli_query($conn, $query);
 
+    $userId = getUserId($conn);
+    //after create user and before add default vehicule and payment method get inserted userId
     if ($result) {
-        $finalObj = (object) ['message' => "success", 'user_id' => getUserIdByUsername($conn, $username)];
+        if (insertVehicule($conn, $userId) && insertPaymentMethod($conn, $userId)) {
+            $finalObj = (object) ['message' => "success", 'user_id' => $userId];
+        } else {
+            $finalObj = (object) ['message' => "vehicule_or_paymentMethod_not_inserter", 'user_id' => -1];
+        }
     } else {
         $finalObj = (object) ['message' => "error", 'user_id' => -1];
     }
@@ -41,7 +47,8 @@ if (!userExists($conn, $username)) {
 $response = json_encode($finalObj, JSON_PRETTY_PRINT);
 echo $response;
 
-function userExists($conn, $username) {
+function userExists($conn, $username)
+{
     $exists = false;
 
     $query = "SELECT id FROM user WHERE username='$username'";
@@ -56,11 +63,11 @@ function userExists($conn, $username) {
     return $exists;
 }
 
-function getUserIdByUsername($conn, $username)
+function getUserId($conn)
 {
-    $userId = 0;
+    $userId = mysqli_insert_id($conn);
 
-    $query = "SELECT id FROM user WHERE username='$username'";
+    $query = "SELECT id FROM user WHERE id=$userId";
     $result = mysqli_query($conn, $query);
 
     if ($result) {
@@ -72,6 +79,38 @@ function getUserIdByUsername($conn, $username)
     }
 
     return $userId;
+}
+
+function insertVehicule($conn, $idUser)
+{
+    $inserted = false;
+
+    $sql = "INSERT INTO vehicule (idUser) VALUES ($idUser)";
+    $result = mysqli_query($conn, $sql);
+
+    if ($result) {
+        if (mysqli_affected_rows($conn) > 0) {
+            $inserted = true;
+        }
+    }
+
+    return $inserted;
+}
+
+function insertPaymentMethod($conn, $idUser)
+{
+    $inserted = false;
+
+    $sql = "INSERT INTO paymentMethod (idUser) VALUES ($idUser)";
+    $result = mysqli_query($conn, $sql);
+
+    if ($result) {
+        if (mysqli_affected_rows($conn) > 0) {
+            $inserted = true;
+        }
+    }
+
+    return $inserted;
 }
 
 // $response = array();

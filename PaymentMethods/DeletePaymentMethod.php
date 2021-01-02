@@ -20,13 +20,18 @@ $json = file_get_contents('php://input');
 $obj = json_decode($json);
 
 $id = $obj->id;
+$idUser = $obj->userId;
 
-if (!isLastResult($conn)) {
+if (!isLastResult($conn, $idUser)) {
     $query = "DELETE FROM paymentMethod WHERE id=$id;";
     $result = mysqli_query($conn, $query);
 
     if ($result) {
-        $finalObj = (object) ['message' => "success"];
+        if (mysqli_affected_rows($conn) > 0) {
+            $finalObj = (object) ['message' => "success"];
+        } else {
+            $finalObj = (object) ['message' => "delete_failed"];
+        }
     } else {
         $finalObj = (object) ['message' => "error"];
     }
@@ -37,11 +42,11 @@ if (!isLastResult($conn)) {
 $response = json_encode($finalObj, JSON_PRETTY_PRINT);
 echo $response;
 
-function isLastResult($conn)
+function isLastResult($conn, $idUser)
 {
     $isLast = false;
 
-    $sql = "SELECT * FROM paymentMethod";
+    $sql = "SELECT * FROM paymentMethod WHERE idUser=$idUser";
     $result = mysqli_query($conn, $sql);
 
     if ($result) {
