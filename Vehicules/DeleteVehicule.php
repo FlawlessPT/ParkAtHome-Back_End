@@ -12,7 +12,7 @@ if (!$conn) {
 }
 
 //
-// params: id
+// params: id, userId
 //
 
 

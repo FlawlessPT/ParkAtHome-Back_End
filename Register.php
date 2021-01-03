@@ -30,12 +30,12 @@ if (!userExists($conn, $username)) {
     $result = mysqli_query($conn, $query);
 
     $userId = getUserId($conn);
-    //after create user and before add default vehicule and payment method get inserted userId
+
     if ($result) {
         if (insertVehicule($conn, $userId) && insertPaymentMethod($conn, $userId)) {
             $finalObj = (object) ['message' => "success", 'user_id' => $userId];
         } else {
-            $finalObj = (object) ['message' => "vehicule_or_paymentMethod_not_inserter", 'user_id' => -1];
+            $finalObj = (object) ['message' => "vehicule_or_paymentMethod_not_inserted", 'user_id' => -1];
         }
     } else {
         $finalObj = (object) ['message' => "error", 'user_id' => -1];
