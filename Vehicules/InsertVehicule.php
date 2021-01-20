@@ -21,7 +21,7 @@ $obj = json_decode($json);
 
 $plate = $obj->plate;
 $name = $obj->name;
-$state = 1;
+$state = 0;
 $idUser = $obj->userId;
 
 if (!plateExists($conn, $plate)) {
@@ -40,7 +40,8 @@ if (!plateExists($conn, $plate)) {
 $response = json_encode($finalObj, JSON_PRETTY_PRINT);
 echo $response;
 
-function plateExists($conn, $plate) {
+function plateExists($conn, $plate)
+{
     $exists = false;
 
     $query = "SELECT id FROM vehicule WHERE plate='$plate'";
