@@ -52,8 +52,8 @@ CREATE TABLE space (
 CREATE TABLE liveSavedSpaces (
 	id int NOT NULL AUTO_INCREMENT,
 	saved_at DATE NOT NULL,
-	idVehicule int NOT NULL,
-	idSpace int NOT NULL,
+	idVehicule int UNIQUE NOT NULL,
+	idSpace int UNIQUE NOT NULL,
 	PRIMARY KEY (id),
 	FOREIGN KEY (idVehicule) REFERENCES vehicule(id),
 	FOREIGN KEY (idSpace) REFERENCES space(id)
