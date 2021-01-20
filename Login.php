@@ -33,33 +33,15 @@ if ($result) {
             $response = $row;
         }
 
-        $finalObj = (object) ['message' => "success", 'user' => $response, 'user_id' => getUserIdByUsername($conn, $username)];
+        $finalObj = (object) ['message' => "success", 'user' => $response];
     } else {
-        $finalObj = (object) ['message' => "login_failed", 'user_id' => -1];
+        $finalObj = (object) ['message' => "login_failed"];
     }
 } else {
-    $finalObj = (object) ['message' => "error", 'user_id' => -1];
+    $finalObj = (object) ['message' => "error"];
 }
 
 echo json_encode($finalObj, JSON_PRETTY_PRINT);
-
-function getUserIdByUsername($conn, $username)
-{
-    $userId = 0;
-
-    $query = "SELECT id FROM user WHERE username='$username'";
-    $result = mysqli_query($conn, $query);
-
-    if ($result) {
-        if (mysqli_num_rows($result) > 0) {
-            if ($row = mysqli_fetch_assoc($result)) {
-                $userId = $row["id"];
-            }
-        }
-    }
-
-    return $userId;
-}
 
 // $query = "SELECT * FROM vehicules";
 // $result = mysqli_query($conn, $query);
