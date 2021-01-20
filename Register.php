@@ -33,15 +33,15 @@ if (!userExists($conn, $username)) {
 
     if ($result) {
         if (insertVehicule($conn, $userId) && insertPaymentMethod($conn, $userId)) {
-            $finalObj = (object) ['message' => "success", 'user_id' => $userId];
+            $finalObj = (object) ['message' => "success"];
         } else {
-            $finalObj = (object) ['message' => "vehicule_or_paymentMethod_not_inserted", 'user_id' => -1];
+            $finalObj = (object) ['message' => "vehicule_or_paymentMethod_not_inserted"];
         }
     } else {
-        $finalObj = (object) ['message' => "error", 'user_id' => -1];
+        $finalObj = (object) ['message' => "error"];
     }
 } else {
-    $finalObj = (object) ['message' => "user_already_exists", 'user_id' => -1];
+    $finalObj = (object) ['message' => "user_already_exists"];
 }
 
 $response = json_encode($finalObj, JSON_PRETTY_PRINT);
