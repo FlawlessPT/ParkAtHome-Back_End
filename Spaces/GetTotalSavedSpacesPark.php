@@ -23,6 +23,13 @@ $parkId = $obj->parkId;
 
 $finalObj = (object) ['message' => "success", "totalSavedSpaces" => countParkSavedSpaces($conn, $parkId)];
 
+//
+// WARNING:
+//
+// THIS PAGE IS NOT BEING USED. IT'S HERE JUST IN CASE OF NEED TO ONLY GET TOTAL SAVED SPACES BY PARK.
+// The response of this page is being sent on GetParks.php every park is get from database.
+//
+
 $response = json_encode($finalObj, JSON_PRETTY_PRINT);
 echo $response;
 
