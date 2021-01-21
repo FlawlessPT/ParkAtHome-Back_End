@@ -83,8 +83,6 @@ INSERT INTO `park` (`id`, `name`, `address`, `contact`, `email`,`totalSpaces`, `
 (1, 'Parque do Porto', "Rua do Porto", "222333222", "porto@email.pt", 60, 'Gondomar', 2, 0.8),
 (2, 'Parque de Braga', "Rua de Braga", "333111333", "braga@email.pt", 40, 'Porto', 1, 0.3),
 (3, 'Parque de Guimarães', "Rua de Guimarães", "123000123", "guimaraes@email.pt", 30, 'Guimarães', 2, 2.1),
-(4, 'Parque de Gondomar', "Rua de Gondomar", "988666123", "gondoamr@email.pt", 80, 'Gondomar', 2, 0.9),
-(5, 'Parque do Souto', "Rua do Souto", "464090111", "souto@email.pt", 30, 'Souto', 1, 0.4);
 
 INSERT INTO `space` (`id`, `idPark`, `isReservativa`) VALUES
 (1, 1, 0),
