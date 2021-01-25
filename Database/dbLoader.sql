@@ -54,9 +54,11 @@ CREATE TABLE liveSavedSpaces (
 	saved_at DATE NOT NULL,
 	idVehicule int UNIQUE NOT NULL,
 	idSpace int UNIQUE NOT NULL,
+	idUser int NOT NULL,
 	PRIMARY KEY (id),
 	FOREIGN KEY (idVehicule) REFERENCES vehicule(id),
-	FOREIGN KEY (idSpace) REFERENCES space(id)
+	FOREIGN KEY (idSpace) REFERENCES space(id),
+	FOREIGN KEY (idUser) REFERENCES user(id)
 );
 
 CREATE TABLE history (
