@@ -31,9 +31,13 @@ if ($result) {
     if (mysqli_num_rows($result) > 0) {
         if ($row = mysqli_fetch_assoc($result)) {
             $response = $row;
-        }
 
-        $finalObj = (object) ['message' => "success", 'user' => $response];
+            if ($row["isAdmin"] == 1) {
+                $finalObj = (object) ['message' => "success", 'user' => $response, 'userType' => "admin"];
+            } else {
+                $finalObj = (object) ['message' => "success", 'user' => $response, 'userType' => "user"];
+            }
+        }
     } else {
         $finalObj = (object) ['message' => "login_failed"];
     }
