@@ -34,13 +34,13 @@ if ($result) {
             $i++;
         }
         $finalObj = (object) ['message' => "success", 'history' => $response];
-
-        echo json_encode($finalObj, JSON_PRETTY_PRINT);
     } else {
         $finalObj = (object) ['message' => "no_history"];
     }
 } else {
     $finalObj = (object) ['message' => "error"];
 }
+
+echo json_encode($finalObj, JSON_PRETTY_PRINT);
 
 mysqli_close($conn);

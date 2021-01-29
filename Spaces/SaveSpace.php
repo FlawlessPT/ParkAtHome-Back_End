@@ -12,8 +12,10 @@ if (!$conn) {
 }
 
 //
-// params: userId
+// params: userId, plate, parkId
 //
+
+// // TODO: FIX IDS SKIPPING ON SAVE SPACE
 
 $json = file_get_contents('php://input');
 
@@ -55,7 +57,7 @@ function saveToLiveSavedSpaces($conn, $userId, $plate, $parkId)
 
                 $idVehicule = getIdVehiculeByPlate($conn, $plate);
 
-                $queryInsertLiveSpaces = "INSERT INTO livesavedspaces (idVehicule, idSpace) VALUES ($idVehicule, $idSpaceQuery)";
+                $queryInsertLiveSpaces = "INSERT INTO livesavedspaces (idVehicule, idSpace, idUser) VALUES ($idVehicule, $idSpaceQuery, $userId)";
                 $resultInsertLiveSpaces = mysqli_query($conn, $queryInsertLiveSpaces);
 
                 if ($resultInsertLiveSpaces) {
@@ -93,9 +95,6 @@ mysqli_close($conn);
 
 // $query = "INSERT INTO liveSavedSpaces (saved_at, idVehicule, idSpace) VALUES ('', '', '". date_default_timezone_get(). "');";
 // $result = mysqli_query($conn, $query);
-
-// // TODO: GET A SPACE FROM SPACES TABLE AND CHECK IF IT IS ALREADY SAVED OR NOT
-// // TODO: FINISH THIS PAGE
 
 // if (!vehiculeIsAlreadySaved($conn, $plate)) {
 //     if ($result) {

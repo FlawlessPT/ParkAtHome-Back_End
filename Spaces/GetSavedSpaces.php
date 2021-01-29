@@ -31,22 +31,25 @@ if ($result) {
         $i = 0;
         while ($row = mysqli_fetch_assoc($result)) {
             $idVehicule = $row["idVehicule"];
+            $idSpace = $row["idSpace"];
 
             $row["vehicule"] = getVehiculeNameById($conn, $idVehicule);
+            $row["plate"] = getVehiculePlateById($conn, $idVehicule);
+            $row["park"] = getParkNameByIdSpace($conn, $idSpace);
 
-            unset($row["idVehicule"]);
             $response[$i] = $row;
             $i++;
         }
         $finalObj = (object) ['message' => "success", 'savedSpaces' => $response];
-
-        echo json_encode($finalObj, JSON_PRETTY_PRINT);
     } else {
-        $finalObj = (object) ['message' => "no_history"];
+        $finalObj = (object) ['message' => "no_saved_spaces"];
     }
 } else {
     $finalObj = (object) ['message' => "error"];
 }
+
+
+echo json_encode($finalObj, JSON_PRETTY_PRINT);
 
 function getVehiculeNameById($conn, $idVehicule)
 {
@@ -64,6 +67,53 @@ function getVehiculeNameById($conn, $idVehicule)
     }
 
     return $vehicule;
+}
+
+function getVehiculePlateById($conn, $idVehicule)
+{
+    $plate = "";
+
+    $query = "SELECT plate FROM vehicule WHERE id=$idVehicule";
+    $result = mysqli_query($conn, $query);
+
+    if ($result) {
+        if (mysqli_num_rows($result) > 0) {
+            if ($row = mysqli_fetch_assoc($result)) {
+                $plate = $row["plate"];
+            }
+        }
+    }
+
+    return $plate;
+}
+
+function getParkNameByIdSpace($conn, $idSpace)
+{
+    $park = "";
+
+    $query = "SELECT idPark FROM space WHERE id=$idSpace";
+    $result = mysqli_query($conn, $query);
+
+    if ($result) {
+        if (mysqli_num_rows($result) > 0) {
+            if ($row = mysqli_fetch_assoc($result)) {
+                $idPark = $row["idPark"];
+
+                $queryParkName = "SELECT name FROM park WHERE id=$idPark";
+                $resultParkName = mysqli_query($conn, $queryParkName);
+
+                if ($resultParkName) {
+                    if (mysqli_num_rows($resultParkName) > 0) {
+                        if ($row = mysqli_fetch_assoc($resultParkName)) {
+                            $park = $row["name"];
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    return $park;
 }
 
 mysqli_close($conn);

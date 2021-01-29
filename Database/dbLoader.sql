@@ -51,7 +51,7 @@ CREATE TABLE space (
 
 CREATE TABLE liveSavedSpaces (
 	id int NOT NULL AUTO_INCREMENT,
-	saved_at DATE NOT NULL,
+	saved_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	idVehicule int UNIQUE NOT NULL,
 	idSpace int UNIQUE NOT NULL,
 	idUser int NOT NULL,
@@ -63,7 +63,7 @@ CREATE TABLE liveSavedSpaces (
 
 CREATE TABLE history (
 	id int NOT NULL AUTO_INCREMENT,
-	paid_at DATE NOT NULL,
+	paid_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	amount FLOAT NOT NULL,
 	duration INT NOT NULL,
 	idSpace int NOT NULL,

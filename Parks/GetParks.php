@@ -32,10 +32,10 @@ if ($result) {
 
         echo json_encode($finalObj, JSON_PRETTY_PRINT);
     } else {
-        $finalObj = (object) ['message' => "no_parks_found", 'parks' => $response];
+        $finalObj = (object) ['message' => "no_parks_found"];
     }
 } else {
-    $finalObj = (object) ['message' => "error", 'parks' => $response];
+    $finalObj = (object) ['message' => "error"];
 }
 
 mysqli_close($conn);

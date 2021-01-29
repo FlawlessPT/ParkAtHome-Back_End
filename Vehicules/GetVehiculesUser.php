@@ -36,10 +36,10 @@ if ($result) {
 
         $finalObj = (object) ['message' => "success", 'vehicules' => $response];
     } else {
-        $finalObj = (object) ['message' => "no_vehicules_created", 'vehicules' => $response];
+        $finalObj = (object) ['message' => "no_vehicules_created"];
     }
 } else {
-    $finalObj = (object) ['message' => "error", 'vehicules' => $response];
+    $finalObj = (object) ['message' => "error"];
 }
 
 

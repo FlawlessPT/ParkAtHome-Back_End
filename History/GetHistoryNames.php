@@ -50,8 +50,6 @@ if ($result) {
             $i++;
         }
         $finalObj = (object) ['message' => "success", 'history' => $response];
-
-        echo json_encode($finalObj, JSON_PRETTY_PRINT);
     } else {
         $finalObj = (object) ['message' => "no_history"];
     }
@@ -59,8 +57,9 @@ if ($result) {
     $finalObj = (object) ['message' => "error"];
 }
 
-mysqli_close($conn);
+echo json_encode($finalObj, JSON_PRETTY_PRINT);
 
+mysqli_close($conn);
 
 function getVehiculeNameById($conn, $idVehicule)
 {

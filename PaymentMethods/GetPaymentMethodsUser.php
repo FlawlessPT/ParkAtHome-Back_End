@@ -36,12 +36,11 @@ if ($result) {
 
         $finalObj = (object) ['message' => "success", 'paymentMethods' => $response];
     } else {
-        $finalObj = (object) ['message' => "no_paymentMethods_created", 'paymentMethods' => $response];
+        $finalObj = (object) ['message' => "no_paymentMethods_created"];
     }
 } else {
-    $finalObj = (object) ['message' => "error", 'paymentMethods' => $response];
+    $finalObj = (object) ['message' => "error"];
 }
-
 
 echo json_encode($finalObj, JSON_PRETTY_PRINT);
 
