@@ -65,7 +65,7 @@ CREATE TABLE history (
 	id int NOT NULL AUTO_INCREMENT,
 	paid_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	amount FLOAT NOT NULL,
-	duration INT NOT NULL,
+	duration FLOAT NOT NULL,
 	idSpace int NOT NULL,
 	idVehicule INT NOT NULL,
 	idPaymentMethod INT NOT NULL,
