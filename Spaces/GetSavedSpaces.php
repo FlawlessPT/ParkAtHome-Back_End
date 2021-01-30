@@ -36,6 +36,7 @@ if ($result) {
             $row["vehicule"] = getVehiculeNameById($conn, $idVehicule);
             $row["plate"] = getVehiculePlateById($conn, $idVehicule);
             $row["park"] = getParkNameByIdSpace($conn, $idSpace);
+            $row["pricePerHour"] = getParkPricePerHourByIdSpace($conn, $idSpace);
 
             $response[$i] = $row;
             $i++;
@@ -114,6 +115,35 @@ function getParkNameByIdSpace($conn, $idSpace)
     }
 
     return $park;
+}
+
+function getParkPricePerHourByIdSpace($conn, $idSpace)
+{
+    $pricePerHour = "";
+
+    $query = "SELECT idPark FROM space WHERE id=$idSpace";
+    $result = mysqli_query($conn, $query);
+
+    if ($result) {
+        if (mysqli_num_rows($result) > 0) {
+            if ($row = mysqli_fetch_assoc($result)) {
+                $idPark = $row["idPark"];
+
+                $queryParkName = "SELECT pricePerHour FROM park WHERE id=$idPark";
+                $resultParkName = mysqli_query($conn, $queryParkName);
+
+                if ($resultParkName) {
+                    if (mysqli_num_rows($resultParkName) > 0) {
+                        if ($row = mysqli_fetch_assoc($resultParkName)) {
+                            $pricePerHour = $row["pricePerHour"];
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    return $pricePerHour;
 }
 
 mysqli_close($conn);

@@ -26,7 +26,20 @@ $plate = $obj->plate;
 $parkId = $obj->parkId;
 
 if (saveSpace($conn, $userId, $plate, $parkId)) {
-    $finalObj = (object) ['message' => "success"];
+
+    $idVehicule = getIdVehiculeByPlate($conn, $plate);
+
+    $query = "SELECT * FROM liveSavedSpaces WHERE idVehicule=$idVehicule AND idUser=$userId";
+    $result = mysqli_query($conn, $query);
+
+    if ($result) {
+        if (mysqli_num_rows($result) > 0) {
+            if ($row = mysqli_fetch_assoc($result)) {
+                $savedSpaces = $row;
+                $finalObj = (object) ['message' => "success", 'savedSpace' => $savedSpaces];
+            }
+        }
+    }
 } else {
     $finalObj = (object) ['message' => "error"];
 }
