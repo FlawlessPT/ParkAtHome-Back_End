@@ -39,7 +39,7 @@ if ($result) {
         $idPaymentMethod = getPaymentMethodIdByName($conn, $paymentMethod);
 
         $queryHistory = "INSERT INTO history (amount, duration, idSpace, idVehicule, idPaymentMethod, idUser)
-        VALUES ($amount, $duration, $idSpace, $idVehicule, $idPaymentMethod, $userId)";
+        VALUES ($amount, '$duration', $idSpace, $idVehicule, $idPaymentMethod, $userId)";
 
         $resultHistory = mysqli_query($conn, $queryHistory);
 

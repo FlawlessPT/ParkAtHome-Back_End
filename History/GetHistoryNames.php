@@ -38,9 +38,9 @@ if ($result) {
             $row["vehicule"] = getVehiculeNameById($conn, $idVehicule);
             $row["paymentMethod"] = getPaymentMethodNameById($conn, $idPaymentMethod);
             $row["park"] = getParkNameByIdSpace($conn, $idSpace);
+            $row["plate"] = getPlateByIdVehicule($conn, $idVehicule);
 
             unset($row["idUser"]);
-            unset($row["idSpace"]);
             unset($row["idVehicule"]);
             unset($row["idPaymentMethod"]);
 
@@ -124,4 +124,22 @@ function getParkNameByIdSpace($conn, $idSpace)
     }
 
     return $parkName;
+}
+
+function getPlateByIdVehicule($conn, $idVehicule)
+{
+    $plate = "";
+
+    $query = "SELECT plate FROM vehicule WHERE id=$idVehicule";
+    $result = mysqli_query($conn, $query);
+
+    if ($result) {
+        if (mysqli_num_rows($result) > 0) {
+            if ($row = mysqli_fetch_assoc($result)) {
+                $plate = $row["plate"];
+            }
+        }
+    }
+
+    return $plate;
 }

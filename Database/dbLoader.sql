@@ -65,7 +65,7 @@ CREATE TABLE history (
 	id int NOT NULL AUTO_INCREMENT,
 	paid_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	amount FLOAT NOT NULL,
-	duration FLOAT NOT NULL,
+	duration TEXT NOT NULL,
 	idSpace int NOT NULL,
 	idVehicule INT NOT NULL,
 	idPaymentMethod INT NOT NULL,
@@ -73,7 +73,7 @@ CREATE TABLE history (
 	PRIMARY KEY (id),
 	FOREIGN KEY (idSpace) REFERENCES space(id),
 	FOREIGN KEY (idPaymentMethod) REFERENCES paymentMethod(id),
-	FOREIGN KEY (idVehicule) REFERENCES vehicule(id)
+	FOREIGN KEY (idVehicule) REFERENCES vehicule(id),
 	FOREIGN KEY (idUser) REFERENCES user(id)
 );
 
