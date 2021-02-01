@@ -23,7 +23,6 @@ $name = $obj->name;
 $description = $obj->description;
 $idUser = $obj->userId;
 
-
 $query = "INSERT INTO paymentMethod (name, description, idUser) VALUES ('$name', '$description', $idUser);";
 $result = mysqli_query($conn, $query);
 

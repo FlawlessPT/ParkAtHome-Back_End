@@ -23,17 +23,21 @@ $id = $obj->id;
 $idUser = $obj->userId;
 
 if (!isLastResult($conn, $idUser)) {
-    $query = "DELETE FROM vehicule WHERE id=$id;";
-    $result = mysqli_query($conn, $query);
+    if (isVehiculeOnUse($conn, $id)) {
+        $query = "DELETE FROM vehicule WHERE id=$id;";
+        $result = mysqli_query($conn, $query);
 
-    if ($result) {
-        if (mysqli_affected_rows($conn) > 0) {
-            $finalObj = (object) ['message' => "success"];
+        if ($result) {
+            if (mysqli_affected_rows($conn) > 0) {
+                $finalObj = (object) ['message' => "success"];
+            } else {
+                $finalObj = (object) ['message' => "delete_failed"];
+            }
         } else {
-            $finalObj = (object) ['message' => "delete_failed"];
+            $finalObj = (object) ['message' => "error"];
         }
     } else {
-        $finalObj = (object) ['message' => "error"];
+        $finalObj = (object) ['message' => "plate_is_used"];
     }
 } else {
     $finalObj = (object) ['message' => "is_last_result"];
@@ -57,6 +61,24 @@ function isLastResult($conn, $idUser)
     }
 
     return $isLast;
+}
+
+function isVehiculeOnUse($conn, $id)
+{
+    $sql = "SELECT state FROM vehicule WHERE id=$id";
+    $result = mysqli_query($conn, $sql);
+
+    if ($result) {
+        if (mysqli_num_rows($result) > 0) {
+            if ($row = mysqli_fetch_assoc($result)) {
+                if ($row["state"] == 1) {
+                    return false;
+                }
+            }
+        }
+    }
+
+    return true;
 }
 
 mysqli_close($conn);

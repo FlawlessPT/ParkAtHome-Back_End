@@ -38,19 +38,23 @@ if ($result) {
     if (mysqli_affected_rows($conn) > 0) {
         $idPaymentMethod = getPaymentMethodIdByName($conn, $paymentMethod);
 
-        $queryHistory = "INSERT INTO history (amount, duration, idSpace, idVehicule, idPaymentMethod, idUser)
-        VALUES ($amount, '$duration', $idSpace, $idVehicule, $idPaymentMethod, $userId)";
+        if (updatePlateState($conn, $idVehicule)) {
+            $queryHistory = "INSERT INTO history (amount, duration, idSpace, idVehicule, idPaymentMethod, idUser)
+                            VALUES ($amount, '$duration', $idSpace, $idVehicule, $idPaymentMethod, $userId)";
 
-        $resultHistory = mysqli_query($conn, $queryHistory);
+            $resultHistory = mysqli_query($conn, $queryHistory);
 
-        if ($resultHistory) {
-            if (mysqli_affected_rows($conn) > 0) {
-                $finalObj = (object) ['message' => "success"];
+            if ($resultHistory) {
+                if (mysqli_affected_rows($conn) > 0) {
+                    $finalObj = (object) ['message' => "success"];
+                } else {
+                    $finalObj = (object) ['message' => "error_insert_history"];
+                }
             } else {
                 $finalObj = (object) ['message' => "error_insert_history"];
             }
         } else {
-            $finalObj = (object) ['message' => "error_insert_history"];
+            $finalObj = (object) ['message' => "error_updating_plate_state"];
         }
     } else {
         $finalObj = (object) ['message' => "delete_failed"];
@@ -78,6 +82,22 @@ function getPaymentMethodIdByName($conn, $name)
     }
 
     return $id;
+}
+
+function updatePlateState($conn, $idVehicule)
+{
+    $query = "UPDATE vehicule
+            SET state = 0
+            WHERE id=$idVehicule;";
+    $result = mysqli_query($conn, $query);
+
+    if ($result) {
+        if (mysqli_affected_rows($conn) > 0) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 mysqli_close($conn);

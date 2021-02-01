@@ -29,16 +29,21 @@ if (saveSpace($conn, $userId, $plate, $parkId)) {
 
     $idVehicule = getIdVehiculeByPlate($conn, $plate);
 
-    $query = "SELECT * FROM liveSavedSpaces WHERE idVehicule=$idVehicule AND idUser=$userId";
-    $result = mysqli_query($conn, $query);
+    if (updatePlateState($conn, $idVehicule)) {
 
-    if ($result) {
-        if (mysqli_num_rows($result) > 0) {
-            if ($row = mysqli_fetch_assoc($result)) {
-                $savedSpaces = $row;
-                $finalObj = (object) ['message' => "success", 'savedSpace' => $savedSpaces];
+        $query = "SELECT * FROM liveSavedSpaces WHERE idVehicule=$idVehicule AND idUser=$userId";
+        $result = mysqli_query($conn, $query);
+
+        if ($result) {
+            if (mysqli_num_rows($result) > 0) {
+                if ($row = mysqli_fetch_assoc($result)) {
+                    $savedSpaces = $row;
+                    $finalObj = (object) ['message' => "success", 'savedSpace' => $savedSpaces];
+                }
             }
         }
+    } else {
+        $finalObj = (object) ['message' => "error_updating_plate_state"];
     }
 } else {
     $finalObj = (object) ['message' => "error"];
@@ -101,6 +106,22 @@ function getIdVehiculeByPlate($conn, $plate)
     }
 
     return $id;
+}
+
+function updatePlateState($conn, $idVehicule)
+{
+    $query = "UPDATE vehicule
+            SET state = 1
+            WHERE id=$idVehicule;";
+    $result = mysqli_query($conn, $query);
+
+    if ($result) {
+        if (mysqli_affected_rows($conn) > 0) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 mysqli_close($conn);
