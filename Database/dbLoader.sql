@@ -99,9 +99,10 @@ INSERT INTO `vehicule` (`id`, `name`, `plate`, `idUser`) VALUES
 (7, '---', '----', 3);
 
 INSERT INTO `park` (`id`, `name`, `address`, `contact`, `email`,`totalSpaces`, `localization`, `nrFloors`, `pricePerHour`, `idUser`) VALUES
-(1, 'Parque do Porto', "Rua do Porto", "222333222", "porto@email.pt", 15, 'Gondomar', 2, 0.8, 1),
-(2, 'Parque de Braga', "Rua de Braga", "333111333", "braga@email.pt", 20, 'Porto', 1, 0.3, 1),
-(3, 'Parque de Guimarães', "Rua de Guimarães", "123000123", "guimaraes@email.pt", 10, 'Guimarães', 2, 2.1, 3);
+(1, 'Parque do Porto', "Rua do Porto", "222333222", "porto@email.pt", 10, 'Gondomar', 1, 0.8, 2),
+(2, 'Parque de Braga', "Rua de Braga", "333111333", "braga@email.pt", 15, 'Porto', 1, 0.3, 2),
+(3, 'Parque de Guimarães', "Rua de Guimarães", "123000123", "guimaraes@email.pt", 10, 'Guimarães', 1, 2.1, 3),
+(4, 'Test Park', 'Test Address', '222444000', 'testpark@email.pt', 10, 'Test Localization', 1, 0.7, 2);
 
 INSERT INTO `space` (`id`, `idPark`) VALUES
 (1, 1),
@@ -109,16 +110,36 @@ INSERT INTO `space` (`id`, `idPark`) VALUES
 (3, 1),
 (4, 1),
 (5, 1),
-(6, 2),
-(7, 2),
-(8, 2),
-(9, 2),
-(10, 2),
-(11, 3),
-(12, 3),
-(13, 3),
-(14, 3),
-(15, 3);
+(6, 1),
+(7, 1),
+(8, 1),
+(9, 1),
+(10, 1),
+(11, 2),
+(12, 2),
+(13, 2),
+(14, 2),
+(15, 2),
+(16, 2),
+(17, 2),
+(18, 2),
+(19, 2),
+(20, 2),
+(21, 2),
+(22, 2),
+(23, 2),
+(24, 2),
+(25, 2),
+(26, 3),
+(27, 3),
+(28, 3),
+(29, 3),
+(30, 3),
+(31, 3),
+(32, 3),
+(33, 3),
+(34, 3),
+(35, 3);
 
 INSERT INTO `paymentmethod` (`id`, `name`, `description`, `idUser`) VALUES
 (1, 'PayPal', 'jotape919@gmail.com', 1),

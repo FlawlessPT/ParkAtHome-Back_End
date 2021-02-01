@@ -1,0 +1,1 @@
+INSERT INTO `park` (`id`, `name`, `address`, `contact`, `email`, `totalSpaces`, `localization`, `nrFloors`, `pricePerHour`, `idUser`) VALUES (4, 'Test Park', 'Test Address', '222444000', 'testpark@email.pt', '10', 'Test Localization', '1', '0.7', '2');
