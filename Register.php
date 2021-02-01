@@ -85,7 +85,7 @@ function insertVehicule($conn, $idUser)
 {
     $inserted = false;
 
-    $sql = "INSERT INTO vehicule (idUser) VALUES ($idUser)";
+    $sql = "INSERT INTO vehicule (plate, idUser) VALUES ('', $idUser)";
     $result = mysqli_query($conn, $sql);
 
     if ($result) {
