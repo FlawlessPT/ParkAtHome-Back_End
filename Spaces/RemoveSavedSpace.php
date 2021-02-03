@@ -36,11 +36,12 @@ $result = mysqli_query($conn, $query);
 
 if ($result) {
     if (mysqli_affected_rows($conn) > 0) {
-        $idPaymentMethod = getPaymentMethodIdByName($conn, $paymentMethod);
-
         if (updatePlateState($conn, $idVehicule)) {
-            $queryHistory = "INSERT INTO history (amount, duration, idSpace, idVehicule, idPaymentMethod, idUser)
-                            VALUES ($amount, '$duration', $idSpace, $idVehicule, $idPaymentMethod, $userId)";
+            $vehicule = getVehiculeNameById($conn, $idVehicule);
+            $plate = getVehiculePlateById($conn, $idVehicule);
+
+            $queryHistory = "INSERT INTO history (amount, duration, idSpace, vehicule, plate, paymentMethod, idUser)
+                            VALUES ($amount, '$duration', $idSpace, '$vehicule', '$plate', '$paymentMethod', $userId)";
 
             $resultHistory = mysqli_query($conn, $queryHistory);
 
@@ -66,22 +67,40 @@ if ($result) {
 $response = json_encode($finalObj, JSON_PRETTY_PRINT);
 echo $response;
 
-function getPaymentMethodIdByName($conn, $name)
+function getVehiculeNameById($conn, $idVehicule)
 {
-    $id = 0;
+    $name = "";
 
-    $query = "SELECT id FROM paymentMethod WHERE name='$name'";
+    $query = "SELECT name FROM vehicule WHERE id=$idVehicule";
     $result = mysqli_query($conn, $query);
 
     if ($result) {
         if (mysqli_num_rows($result) > 0) {
             if ($row = mysqli_fetch_assoc($result)) {
-                $id = $row["id"];
+                $name = $row["name"];
             }
         }
     }
 
-    return $id;
+    return $name;
+}
+
+function getVehiculePlateById($conn, $idVehicule)
+{
+    $plate = "";
+
+    $query = "SELECT plate FROM vehicule WHERE id=$idVehicule";
+    $result = mysqli_query($conn, $query);
+
+    if ($result) {
+        if (mysqli_num_rows($result) > 0) {
+            if ($row = mysqli_fetch_assoc($result)) {
+                $plate = $row["plate"];
+            }
+        }
+    }
+
+    return $plate;
 }
 
 function updatePlateState($conn, $idVehicule)

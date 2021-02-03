@@ -25,9 +25,13 @@ $query = "DELETE FROM park WHERE id=$id;";
 $result = mysqli_query($conn, $query);
 
 if ($result) {
-    $finalObj = (object) ['message' => "success"];
+    if (mysqli_affected_rows($conn) > 0) {
+        $finalObj = (object) ['message' => "success"];
+    } else {
+        $finalObj = (object) ['message' => "delete_failed"];
+    }
 } else {
-    $finalObj = (object) ['message' => "delete_failed"];
+    $finalObj = (object) ['message' => "error"];
 }
 
 $response = json_encode($finalObj, JSON_PRETTY_PRINT);

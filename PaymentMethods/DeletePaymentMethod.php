@@ -20,42 +20,21 @@ $json = file_get_contents('php://input');
 $obj = json_decode($json);
 
 $id = $obj->id;
-$idUser = $obj->userId;
 
-if (!isLastResult($conn, $idUser)) {
-    $query = "DELETE FROM paymentMethod WHERE id=$id;";
-    $result = mysqli_query($conn, $query);
+$query = "DELETE FROM paymentMethod WHERE id=$id;";
+$result = mysqli_query($conn, $query);
 
-    if ($result) {
-        if (mysqli_affected_rows($conn) > 0) {
-            $finalObj = (object) ['message' => "success"];
-        } else {
-            $finalObj = (object) ['message' => "delete_failed"];
-        }
+if ($result) {
+    if (mysqli_affected_rows($conn) > 0) {
+        $finalObj = (object) ['message' => "success"];
     } else {
-        $finalObj = (object) ['message' => "error"];
+        $finalObj = (object) ['message' => "delete_failed"];
     }
 } else {
-    $finalObj = (object) ['message' => "is_last_result"];
+    $finalObj = (object) ['message' => "error"];
 }
 
 $response = json_encode($finalObj, JSON_PRETTY_PRINT);
 echo $response;
-
-function isLastResult($conn, $idUser)
-{
-    $isLast = false;
-
-    $sql = "SELECT * FROM paymentMethod WHERE idUser=$idUser";
-    $result = mysqli_query($conn, $sql);
-
-    if ($result) {
-        if (mysqli_num_rows($result) == 1) {
-            $isLast = true;
-        }
-    }
-
-    return $isLast;
-}
 
 mysqli_close($conn);

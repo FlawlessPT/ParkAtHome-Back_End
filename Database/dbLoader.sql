@@ -74,13 +74,12 @@ CREATE TABLE `history` (
 	amount FLOAT NOT NULL,
 	duration TEXT NOT NULL,
 	idSpace int NOT NULL,
-	idVehicule INT NOT NULL,
-	idPaymentMethod INT NOT NULL,
+	vehicule TEXT NOT NULL,
+	plate TEXT NOT NULL,
+	paymentMethod TEXT NOT NULL,
 	idUser INT NOT NULL,
 	PRIMARY KEY (id),
 	FOREIGN KEY (idSpace) REFERENCES space(id),
-	FOREIGN KEY (idPaymentMethod) REFERENCES paymentMethod(id),
-	FOREIGN KEY (idVehicule) REFERENCES vehicule(id),
 	FOREIGN KEY (idUser) REFERENCES user(id)
 );
 
