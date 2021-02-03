@@ -29,14 +29,14 @@ if (!userExists($conn, $username)) {
     $query = "INSERT INTO user (name, username, password, contact, email) VALUES ('$name', '$username', '$password', '$contact', '$email');";
     $result = mysqli_query($conn, $query);
 
-    $userId = getUserId($conn);
+    // $userId = getUserId($conn);
 
     if ($result) {
-        if (insertVehicule($conn, $userId) && insertPaymentMethod($conn, $userId)) {
-            $finalObj = (object) ['message' => "success"];
-        } else {
-            $finalObj = (object) ['message' => "vehicule_or_paymentMethod_not_inserted"];
-        }
+        $finalObj = (object) ['message' => "success"];
+        // if (insertVehicule($conn, $userId) && insertPaymentMethod($conn, $userId)) {
+        // } else {
+        //     $finalObj = (object) ['message' => "vehicule_or_paymentMethod_not_inserted"];
+        // }
     } else {
         $finalObj = (object) ['message' => "error"];
     }
@@ -81,37 +81,37 @@ function getUserId($conn)
     return $userId;
 }
 
-function insertVehicule($conn, $idUser)
-{
-    $inserted = false;
+// function insertVehicule($conn, $idUser)
+// {
+//     $inserted = false;
 
-    $sql = "INSERT INTO vehicule (plate, idUser) VALUES ('', $idUser)";
-    $result = mysqli_query($conn, $sql);
+//     $sql = "INSERT INTO vehicule (plate, idUser) VALUES ('', $idUser)";
+//     $result = mysqli_query($conn, $sql);
 
-    if ($result) {
-        if (mysqli_affected_rows($conn) > 0) {
-            $inserted = true;
-        }
-    }
+//     if ($result) {
+//         if (mysqli_affected_rows($conn) > 0) {
+//             $inserted = true;
+//         }
+//     }
 
-    return $inserted;
-}
+//     return $inserted;
+// }
 
-function insertPaymentMethod($conn, $idUser)
-{
-    $inserted = false;
+// function insertPaymentMethod($conn, $idUser)
+// {
+//     $inserted = false;
 
-    $sql = "INSERT INTO paymentMethod (idUser) VALUES ($idUser)";
-    $result = mysqli_query($conn, $sql);
+//     $sql = "INSERT INTO paymentMethod (idUser) VALUES ($idUser)";
+//     $result = mysqli_query($conn, $sql);
 
-    if ($result) {
-        if (mysqli_affected_rows($conn) > 0) {
-            $inserted = true;
-        }
-    }
+//     if ($result) {
+//         if (mysqli_affected_rows($conn) > 0) {
+//             $inserted = true;
+//         }
+//     }
 
-    return $inserted;
-}
+//     return $inserted;
+// }
 
 // $response = array();
 
